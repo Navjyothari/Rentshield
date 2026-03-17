@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RentShield - Review &amp; Submit</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#0a0f1e", // Updated to exact navy from landing page
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Landing Page Grid & Sparkles Background */
+        .bg-grid-pattern {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+        .sparkles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle-anim linear infinite;
+        }
+        @keyframes sparkle-anim {
+            0% { transform: translateY(0) scale(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="font-display bg-background-dark text-slate-100 min-h-screen relative overflow-x-hidden">
+<!-- Animated Sparkles Layer -->
+<div class="sparkles-container">
+<script>
+            const container = document.querySelector('.sparkles-container');
+            for (let i = 0; i < 50; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                const size = Math.random() * 2 + 1 + 'px';
+                sparkle.style.width = size;
+                sparkle.style.height = size;
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDuration = Math.random() * 3 + 2 + 's';
+                sparkle.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(sparkle);
+            }
+        </script>
+</div>
+<!-- Background Grid -->
+<div class="fixed inset-0 bg-grid-pattern pointer-events-none z-0"></div>
+<div class="relative flex h-auto min-h-screen w-full flex-col z-10">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-white/10 px-6 py-4 md:px-20 lg:px-40 backdrop-blur-md">
+<div class="flex items-center gap-3">
+<div class="text-primary">
+<span class="material-symbols-outlined text-3xl">shield_with_heart</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-tight">RentShield</h2>
+</div>
+<button class="flex items-center justify-center rounded-xl h-10 w-10 bg-white/5 text-slate-300 hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</header>
+<main class="flex flex-1 justify-center py-8 px-4 md:px-0">
+<div class="layout-content-container flex flex-col max-w-[560px] flex-1">
+<!-- Progress Section -->
+<div class="flex flex-col gap-3 px-4 mb-8">
+<div class="flex gap-6 justify-between items-center">
+<p class="text-primary text-sm font-semibold uppercase tracking-wider">Step 4 of 4</p>
+<p class="text-slate-400 text-sm font-medium">100% Complete</p>
+</div>
+<div class="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+<div class="h-full rounded-full bg-primary" style="width: 100%;"></div>
+</div>
+<p class="text-slate-300 text-lg font-semibold mt-2">Review &amp; Submit</p>
+</div>
+<!-- Main Summary Card (Glassmorphic) -->
+<div class="px-4 mb-6">
+<div class="glass-card rounded-xl p-6 shadow-2xl">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">description</span>
+<h3 class="text-xl font-bold text-white">Report Summary</h3>
+</div>
+<div class="space-y-5">
+<div class="flex flex-col gap-1 border-b border-white/10 pb-4">
+<p class="text-slate-500 text-xs font-bold uppercase tracking-tight">Property</p>
+<p class="text-slate-100 font-medium">123 Civic Plaza, Apt 4B, Metro City</p>
+</div>
+<div class="grid grid-cols-2 gap-4 border-b border-white/10 pb-4">
+<div class="flex flex-col gap-1">
+<p class="text-slate-500 text-xs font-bold uppercase tracking-tight">Category</p>
+<p class="text-slate-100 font-medium">Maintenance</p>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-slate-500 text-xs font-bold uppercase tracking-tight">Severity</p>
+<span class="inline-flex items-center text-red-500 font-bold text-sm">
+<span class="material-symbols-outlined text-sm mr-1">priority_high</span>
+                                            High - Urgent
+                                        </span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-slate-500 text-xs font-bold uppercase tracking-tight">Description</p>
+<p class="text-slate-100 leading-relaxed italic">
+                                        "Water leak in the main bathroom ceiling causing drywall damage. Constant dripping noticed since 8 AM today."
+                                    </p>
+</div>
+<div class="mt-4 rounded-lg overflow-hidden border border-white/10">
+<div class="h-32 bg-white/5 flex items-center justify-center relative overflow-hidden">
+<img alt="Water damage visual" class="w-full h-full object-cover" data-alt="Interior bathroom ceiling with visible water damage and stains" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3viklNqSOFccVSPcJht2gcbELb3OMKVNwuW9LlBM_UVFblWoBP7aJnPMFekRNsyIIVLqn6HVNwbtlUnlGzsjFSf861cvzcChWBmdCwqGKApB3N9w_UpTxzrMgRSkcllwllrocIKAMNcvb5IuVQUYyVQ-BGjH_HcoG2HxT9X2aFx5pGFDpLHI8IU79VA2RawnPyzTH9A0PintQsIh_KfANYcqq53_4Gj0g9_roMQW3Hii90renE-g8F5UyYiXGdcco0_5fKhZtACg5"/>
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center">
+<span class="text-white text-xs font-bold bg-black/40 px-2 py-1 rounded">Photo Attachment (1)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Anonymity Toggle -->
+<div class="px-4 mb-6">
+<div class="flex items-center justify-between p-4 glass-card rounded-xl">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">incognito</span>
+<div>
+<p class="font-bold text-white">Submit Anonymously</p>
+<p class="text-xs text-slate-400">Your personal details will be hidden from the landlord.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- Legal & Submit -->
+<div class="px-4 flex flex-col gap-6">
+<p class="text-slate-500 text-xs leading-normal text-center">
+                            By clicking submit, you agree to our Terms of Service. You certify that the information provided is accurate to the best of your knowledge. RentShield uses encrypted protocols to protect your identity.
+                        </p>
+<button class="w-full py-4 px-6 bg-primary hover:bg-primary/90 text-white font-bold text-lg rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 group">
+                            Submit Report
+                            <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">send</span>
+</button>
+<button class="w-full py-2 text-slate-500 font-medium text-sm hover:text-slate-200 transition-colors">
+                            Go Back and Edit
+                        </button>
+</div>
+</div>
+</main>
+<!-- Footer Spacer -->
+<footer class="py-10"></footer>
+</div>
+</div>
+</body></html>

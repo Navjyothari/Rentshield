@@ -1,0 +1,158 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  tenant
+  landlord
+  dao_member
+  admin
+}
+
+enum IssueCategory {
+  Safety
+  Maintenance
+  Harassment
+  Discrimination
+}
+
+enum IssueStatus {
+  Reported
+  Under_Review
+  Resolved
+  Dismissed
+}
+
+enum CommentAuthorRole {
+  tenant
+  landlord
+  dao
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  role         Role
+  displayName  String?
+  createdAt    DateTime  @default(now())
+  refreshToken String?
+
+  // Relations
+  properties Property[]
+  comments   Comment[]
+  daoVotes   DAOVote[]
+
+  // Implicit many-to-many for juror assignment
+  jurorCases DAOCase[] @relation("JurorCases")
+}
+
+model Property {
+  id         String   @id @default(uuid())
+  landlordId String
+  address    String
+  area       String
+  city       String
+  latitude   Float?
+  longitude  Float?
+  riskScore  Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  // Relations
+  landlord User    @relation(fields: [landlordId], references: [id])
+  issues   Issue[]
+}
+
+model Issue {
+  id          String        @id @default(uuid())
+  propertyId  String
+  category    IssueCategory
+  severity    Int // 1-5
+  status      IssueStatus   @default(Reported)
+  description String
+  isAnonymous Boolean       @default(true)
+  reporterId  String? // null if anonymous
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  property  Property    @relation(fields: [propertyId], references: [id])
+  evidence  Evidence[]
+  aiVerdict AIVerdict?
+  daoCase   DAOCase?
+  comments  Comment[]
+}
+
+model Evidence {
+  id          String   @id @default(uuid())
+  issueId     String
+  fileUrl     String
+  fileType    String // image/pdf/video
+  exifValid   Boolean  @default(false)
+  tamperScore Float    @default(0.0) // 0.0=clean, 1.0=likely tampered
+  metadata    Json? // raw EXIF data
+  uploadedAt  DateTime @default(now())
+
+  // Relations
+  issue Issue @relation(fields: [issueId], references: [id], onDelete: Cascade)
+}
+
+model AIVerdict {
+  id               String   @id @default(uuid())
+  issueId          String   @unique
+  confidenceScore  Float // 0.0-1.0
+  autoCategory     String
+  reasoning        String
+  flaggedKeywords  String[]
+  generatedAt      DateTime @default(now())
+
+  // Relations
+  issue Issue @relation(fields: [issueId], references: [id], onDelete: Cascade)
+}
+
+model DAOCase {
+  id         String   @id @default(uuid())
+  issueId    String   @unique
+  status     String   @default("Pending") // Pending/Voting/Closed
+  resolution String?
+  openedAt   DateTime @default(now())
+  closedAt   DateTime?
+
+  // Relations
+  issue  Issue     @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  jurors User[]    @relation("JurorCases")
+  votes  DAOVote[]
+}
+
+model DAOVote {
+  id       String   @id @default(uuid())
+  caseId   String
+  jurorId  String
+  vote     Boolean // true=sustain, false=dismiss
+  reason   String?
+  votedAt  DateTime @default(now())
+
+  // Relations
+  case  DAOCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  juror User    @relation(fields: [jurorId], references: [id], onDelete: Cascade)
+
+  @@unique([caseId, jurorId])
+}
+
+model Comment {
+  id         String            @id @default(uuid())
+  issueId    String
+  authorId   String
+  authorRole CommentAuthorRole
+  content    String
+  createdAt  DateTime          @default(now())
+
+  // Relations
+  issue  Issue @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  author User  @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}

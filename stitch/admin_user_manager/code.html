@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RentShield - Admin User Manager</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "navy-950": "#0a0f1e",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle var(--duration) ease-in-out infinite;
+            opacity: 0;
+        }
+        .bg-grid {
+            background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-navy-950 font-display text-slate-100 min-h-screen overflow-hidden">
+<!-- Animated Sparkle Background -->
+<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="sparkle-container">
+<div class="absolute inset-0 bg-grid"></div>
+<!-- Sparkles will be injected here -->
+<div class="sparkle" style="top: 10%; left: 20%; width: 2px; height: 2px; --duration: 3s; animation-delay: 0s;"></div>
+<div class="sparkle" style="top: 30%; left: 50%; width: 3px; height: 3px; --duration: 4s; animation-delay: 1s;"></div>
+<div class="sparkle" style="top: 70%; left: 15%; width: 2px; height: 2px; --duration: 5s; animation-delay: 2s;"></div>
+<div class="sparkle" style="top: 85%; left: 80%; width: 3px; height: 3px; --duration: 3.5s; animation-delay: 0.5s;"></div>
+<div class="sparkle" style="top: 40%; left: 90%; width: 2px; height: 2px; --duration: 4.5s; animation-delay: 1.5s;"></div>
+<div class="sparkle" style="top: 20%; left: 75%; width: 2px; height: 2px; --duration: 6s; animation-delay: 3s;"></div>
+<div class="sparkle" style="top: 60%; left: 40%; width: 2px; height: 2px; --duration: 4s; animation-delay: 0.2s;"></div>
+</div>
+<div class="flex h-screen overflow-hidden relative z-10">
+<!-- Glassmorphic Sidebar -->
+<aside class="w-64 h-full relative overflow-hidden flex-shrink-0 border-r border-white/10">
+<div class="absolute inset-0 bg-navy-950/40 backdrop-blur-xl z-0"></div>
+<div class="relative z-10 flex flex-col h-full p-6">
+<!-- Brand -->
+<div class="flex items-center gap-3 mb-10">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined">shield</span>
+</div>
+<div>
+<h1 class="text-xl font-black tracking-tight text-white leading-none">RentShield</h1>
+<p class="text-[10px] uppercase tracking-widest text-primary font-bold mt-1">Admin Console</p>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined text-slate-400">dashboard</span>
+<span class="text-sm font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary text-white shadow-lg shadow-primary/20" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-semibold">User Manager</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined text-slate-400">domain</span>
+<span class="text-sm font-semibold">Properties</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined text-slate-400">description</span>
+<span class="text-sm font-semibold">Leases</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined text-slate-400">settings</span>
+<span class="text-sm font-semibold">Settings</span>
+</a>
+</nav>
+<!-- Profile/Logout -->
+<div class="mt-auto pt-6 border-t border-white/10">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-slate-700 bg-cover bg-center" data-alt="Admin user profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCqXqacUW6Za6rlZqXJIYZvN5eeFoGSiAj9I1lHYGBclIgCxp8SmTy3wG7_pL8Y_payGiYUJ4AaGWrA91uOEg7sNpHAqqeXdaksz4wfsTYBkPKNGUAJXhGZAgWO2CfB9f71oHP214t__CJcN8i2DQWbafBKSpcLFY8HsQ__C2AArrhmGsF-XIF6j0Ofl9ZwnL_ZuxCVRcFc5l5k1lGePmKlKQQOKjAYs7ULGgJT4v5AVbJaGPqyJ2XPoKXuNq9Naqqo1VsujQ7ibNJr")'></div>
+<div class="overflow-hidden">
+<p class="text-sm font-bold truncate">Admin User</p>
+<p class="text-xs text-slate-400 truncate">admin@rentshield.com</p>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-white/10 hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-sm">logout</span>
+<span class="text-sm font-bold">Logout</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto p-8 lg:p-12 relative">
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+<div>
+<h2 class="text-4xl font-black text-white tracking-tight">User Manager</h2>
+<p class="text-slate-400 mt-1 font-medium">Manage system access and administrative permissions.</p>
+</div>
+<button class="flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-bold hover:brightness-110 shadow-xl shadow-primary/25 transition-all">
+<span class="material-symbols-outlined">add_circle</span>
+<span>Add User</span>
+</button>
+</header>
+<!-- Filters & Search -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-8">
+<div class="md:col-span-8 lg:col-span-9 relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-12 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-200 transition-all placeholder:text-slate-500" placeholder="Search by name, email, or role..." type="text"/>
+</div>
+<div class="md:col-span-4 lg:col-span-3 flex gap-4">
+<div class="relative flex-1">
+<select class="w-full appearance-none px-4 py-3.5 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-slate-200 font-semibold pr-10">
+<option class="bg-navy-950">All Roles</option>
+<option class="bg-navy-950">Admin</option>
+<option class="bg-navy-950">Manager</option>
+<option class="bg-navy-950">Tenant</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Table Container -->
+<div class="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden shadow-2xl shadow-black/40">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-white/5 border-bottom border-white/10">
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">User</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Email</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Role</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Joined Date</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<!-- Row 1 -->
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-700 bg-cover bg-center" data-alt="Portrait of Alex Rivera" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDgrwfrLx0ljAyQIaCInPp4GDI3s-ay8k766D2gIx27PXqZHep_WK1krCkiJImIZZnXP7y5eFeQG5uT6ddHTK6xPHGHMdijsYWapQw8DimfocT9iTuVJGwPjgL1di7-wEpuAX3kz25ahOknxId1RqOXR9WDOInduGqWGwF_P0WuF2FqrLY8wACEbSkatZTu6fWDQCxLwJY1OB_szeLejr2grzlKIaQ6FE3Kj0u9Gr7jfqe_d5uuM1qGlthRqRhd8ikHCXH4oSmDLcN5")'></div>
+<span class="font-bold text-slate-100">Alex Rivera</span>
+</div>
+</td>
+<td class="px-6 py-5 text-slate-400 text-sm font-medium">alex.r@rentshield.com</td>
+<td class="px-6 py-5">
+<div class="relative">
+<select class="bg-primary/20 text-primary text-xs font-bold rounded-full px-3 py-1.5 border-none focus:ring-1 focus:ring-primary cursor-pointer appearance-none pr-8">
+<option class="bg-navy-950" selected="">Admin</option>
+<option class="bg-navy-950">Manager</option>
+<option class="bg-navy-950">Tenant</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-primary pointer-events-none text-sm">expand_more</span>
+</div>
+</td>
+<td class="px-6 py-5 text-slate-400 text-sm">Oct 12, 2023</td>
+<td class="px-6 py-5">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 rounded-lg hover:bg-white/10 text-slate-400 transition-colors">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-red-500/10 text-red-500 transition-colors">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-700 bg-cover bg-center" data-alt="Portrait of Jordan Smith" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC4PChWih2tR5072qsK9wJIVxo9AUNhuux-148iYNYV8j-IPR4F4PrTa3NR4fvvWeYq5OF7JsoNTy1KdBr7Vj5B_RChubDqGNV4gi2UyAcHZt5-DYJ76kLUmZbyvQuApEcN4MyUBd_SqdHuds9v6VCFMaURJXkXQQGVpicpW9g56uWEu1HCgLKzlsr96Vurk-5RcX63ymIBfyFQJl5F0qRPAZiaKlO_R1QYsB7J-xIJo-fjqE1hVdwwruhJNmzYyvmSAfdxTGLoy5At")'></div>
+<span class="font-bold text-slate-100">Jordan Smith</span>
+</div>
+</td>
+<td class="px-6 py-5 text-slate-400 text-sm font-medium">j.smith@rentshield.com</td>
+<td class="px-6 py-5">
+<div class="relative">
+<select class="bg-primary/20 text-primary text-xs font-bold rounded-full px-3 py-1.5 border-none focus:ring-1 focus:ring-primary cursor-pointer appearance-none pr-8">
+<option class="bg-navy-950">Admin</option>
+<option class="bg-navy-950" selected="">Manager</option>
+<option class="bg-navy-950">Tenant</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-primary pointer-events-none text-sm">expand_more</span>
+</div>
+</td>
+<td class="px-6 py-5 text-slate-400 text-sm">Jan 05, 2024</td>
+<td class="px-6 py-5">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 rounded-lg hover:bg-white/10 text-slate-400 transition-colors">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-red-500/10 text-red-500 transition-colors">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-700 bg-cover bg-center" data-alt="Portrait of Taylor Wong" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCkB9-pCfj28Kl4Z3uJHIOf99m0l3Yj-A2plf_txI7GfvmLYcKKrqEq4jBgcxpWHw8rnNcFQ6TkCTPMYdSZmWNF62_XXbQxtkXs09UzX-hUrH3nkOg0tkGo-R3efOPHZ7m8W-xeWYl_ESCm1ee8HYGM5qYJA40hfqsCDpVuiddzDaMbEIrARWq8iyXB87Zo9Z1rugYQ0vTxPrY3eVO_K5uHXpT2ouCMkozhaMTWpk2lhz-C_GTbbbJ141gMO_F2_x8FhcSbLKModRj6")'></div>
+<span class="font-bold text-slate-100">Taylor Wong</span>
+</div>
+</td>
+<td class="px-6 py-5 text-slate-400 text-sm font-medium">t.wong@rentshield.com</td>
+<td class="px-6 py-5">
+<div class="relative">
+<select class="bg-primary/20 text-primary text-xs font-bold rounded-full px-3 py-1.5 border-none focus:ring-1 focus:ring-primary cursor-pointer appearance-none pr-8">
+<option class="bg-navy-950">Admin</option>
+<option class="bg-navy-950">Manager</option>
+<option class="bg-navy-950" selected="">Tenant</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-primary pointer-events-none text-sm">expand_more</span>
+</div>
+</td>
+<td class="px-6 py-5 text-slate-400 text-sm">Mar 15, 2024</td>
+<td class="px-6 py-5">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 rounded-lg hover:bg-white/10 text-slate-400 transition-colors">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-red-500/10 text-red-500 transition-colors">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-700 bg-cover bg-center" data-alt="Portrait of Sarah Connor" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB9p63t8xC7oMiRRNrdhQ9ssrVkbzN9whMVoWR9scf0iTt2JS3pJQMy5If6Qdf-hA3AmxqkvZCFyQ00U_hxmYZYyAGY4JoXtF_n8ui6qpMJuz94JUk0ojB5DGJNVAcXy7Dx84n8_ZpavW_hqLrjei-v8fy8ZdpftPIKM_61IwLf3U0UMQo12h4kuOjmQ4FBTaDbTWj237VqwVuLuo4lGZaGvYB3rVJPc6pnHjDW1hDFBDtdjsdxJSpx2nqMt2ogzxIK-FFOjg3qP2nU")'></div>
+<span class="font-bold text-slate-100">Sarah Connor</span>
+</div>
+</td>
+<td class="px-6 py-5 text-slate-400 text-sm font-medium">s.connor@rentshield.com</td>
+<td class="px-6 py-5">
+<div class="relative">
+<select class="bg-primary/20 text-primary text-xs font-bold rounded-full px-3 py-1.5 border-none focus:ring-1 focus:ring-primary cursor-pointer appearance-none pr-8">
+<option class="bg-navy-950">Admin</option>
+<option class="bg-navy-950" selected="">Manager</option>
+<option class="bg-navy-950">Tenant</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-primary pointer-events-none text-sm">expand_more</span>
+</div>
+</td>
+<td class="px-6 py-5 text-slate-400 text-sm">Apr 22, 2024</td>
+<td class="px-6 py-5">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 rounded-lg hover:bg-white/10 text-slate-400 transition-colors">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-2 rounded-lg hover:bg-red-500/10 text-red-500 transition-colors">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 bg-white/5 border-t border-white/10 flex items-center justify-between">
+<p class="text-sm text-slate-400 font-medium">Showing 4 of 24 users</p>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg border border-white/10 hover:bg-white/10 transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-white text-sm font-bold">1</button>
+<button class="w-8 h-8 rounded-lg text-sm font-bold text-slate-400 hover:bg-white/10 transition-colors">2</button>
+<button class="w-8 h-8 rounded-lg text-sm font-bold text-slate-400 hover:bg-white/10 transition-colors">3</button>
+<button class="p-2 rounded-lg border border-white/10 hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

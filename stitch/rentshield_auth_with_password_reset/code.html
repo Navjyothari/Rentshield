@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RentShield | Secure Authentication</title>
+<!-- BEGIN: External Scripts -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            noir: {
+              DEFAULT: '#0a0f1e',
+              secondary: '#111827',
+            },
+            vibrantOrange: '#ff8000',
+          },
+          backdropBlur: {
+            xs: '2px',
+          }
+        }
+      }
+    }
+  </script>
+<!-- END: External Scripts -->
+<!-- BEGIN: Custom Styles -->
+<style data-purpose="background-effects">
+    body {
+      background-color: #0a0f1e;
+      overflow-x: hidden;
+    }
+
+    /* Subtle grid pattern background */
+    .grid-bg {
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Liquid Glass Effect */
+    .liquid-glass {
+      background: rgba(17, 24, 39, 0.6);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.125);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    /* Animated background blob for the "liquid" feel */
+    .liquid-blob {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 128, 0, 0.15) 0%, rgba(10, 15, 30, 0) 70%);
+      border-radius: 50%;
+      z-index: -1;
+      filter: blur(40px);
+      animation: float 20s infinite alternate ease-in-out;
+    }
+
+    @keyframes float {
+      0% { transform: translate(-10%, -10%) scale(1); }
+      50% { transform: translate(20%, 15%) scale(1.2); }
+      100% { transform: translate(-5%, 20%) scale(0.9); }
+    }
+  </style>
+<style data-purpose="component-styling">
+    .tab-active {
+      border-bottom: 2px solid #ff8000;
+      color: #ff8000;
+    }
+    .input-field {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: all 0.3s ease;
+    }
+    .input-field:focus {
+      border-color: #ff8000;
+      ring-color: #ff8000;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .btn-primary {
+      background-color: #ff8000;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    .btn-primary:hover {
+      background-color: #e67300;
+      transform: translateY(-1px);
+    }
+  </style>
+<!-- END: Custom Styles -->
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 relative font-sans">
+<!-- BEGIN: Animated Background Elements -->
+<div class="fixed inset-0 grid-bg pointer-events-none"></div>
+<div class="liquid-blob top-0 left-0"></div>
+<div class="liquid-blob bottom-0 right-0" style="animation-delay: -5s;"></div>
+<!-- END: Animated Background Elements -->
+<!-- BEGIN: Main Auth Container -->
+<main class="w-full max-w-md relative z-10" data-purpose="auth-card-container">
+<!-- BEGIN: Brand Header -->
+<header class="text-center mb-8" data-purpose="brand-identity">
+<div class="inline-flex items-center justify-center p-3 mb-4 rounded-xl bg-noir-secondary border border-white/10 shadow-xl">
+<!-- Shield Icon -->
+<svg class="w-10 h-10 text-vibrantOrange" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<h1 class="text-3xl font-bold text-white tracking-tight">RentShield</h1>
+<p class="text-gray-400 mt-2">Authoritative Protection for Your Assets</p>
+</header>
+<!-- END: Brand Header -->
+<!-- BEGIN: Authentication Card -->
+<div class="liquid-glass rounded-3xl p-8 md:p-10" data-purpose="main-form-wrapper">
+<!-- BEGIN: Tabs -->
+<nav class="flex border-b border-white/10 mb-8" data-purpose="auth-toggle">
+<button class="flex-1 py-3 text-sm font-semibold text-white tab-active transition-all duration-300" id="tab-signin" onclick="switchTab('signin')">
+          Sign In
+        </button>
+<button class="flex-1 py-3 text-sm font-semibold text-gray-400 hover:text-white transition-all duration-300" id="tab-register" onclick="switchTab('register')">
+          Create Account
+        </button>
+</nav>
+<!-- END: Tabs -->
+<!-- BEGIN: Auth Forms -->
+<section>
+<form class="space-y-5" id="auth-form">
+<!-- Email Field (Common) -->
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-gray-400" for="email">Email Address</label>
+<input class="w-full px-4 py-3 rounded-xl input-field focus:ring-1 focus:outline-none" id="email" placeholder="name@company.com" required="" type="email"/>
+</div>
+<!-- Password Field (Common) -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="text-xs font-bold uppercase tracking-wider text-gray-400" for="password">Password</label>
+<a class="text-xs text-vibrantOrange hover:underline" href="#" id="forgot-password-link" onclick="showPasswordReset(true)">Forgot password?</a>
+</div>
+<input class="w-full px-4 py-3 rounded-xl input-field focus:ring-1 focus:outline-none" id="password" placeholder="••••••••" required="" type="password"/>
+</div>
+<!-- Registration Only Fields -->
+<div class="hidden space-y-5 animate-in fade-in slide-in-from-top-2 duration-300" id="register-fields">
+<!-- Role Selector -->
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-gray-400">Account Role</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="cursor-pointer">
+<input checked="" class="hidden peer" name="role" type="radio" value="tenant"/>
+<div class="text-center p-3 rounded-xl border border-white/10 bg-white/5 text-gray-400 peer-checked:border-vibrantOrange peer-checked:text-vibrantOrange transition-all">
+                    Tenant
+                  </div>
+</label>
+<label class="cursor-pointer">
+<input class="hidden peer" name="role" type="radio" value="landlord"/>
+<div class="text-center p-3 rounded-xl border border-white/10 bg-white/5 text-gray-400 peer-checked:border-vibrantOrange peer-checked:text-vibrantOrange transition-all">
+                    Landlord
+                  </div>
+</label>
+</div>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full py-4 px-6 rounded-xl text-white font-bold text-lg btn-primary shadow-lg shadow-vibrantOrange/20 mt-4" id="submit-btn" type="submit">
+            Sign In
+          </button>
+</form><div class="hidden animate-in fade-in slide-in-from-top-2 duration-300 space-y-6" id="password-reset-view">
+<div class="text-center space-y-2">
+<h2 class="text-2xl font-bold text-white tracking-tight">Reset your password</h2>
+<p class="text-sm text-gray-400">Enter your email address and we'll send you a link to reset your password.</p>
+</div>
+<form class="space-y-5">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-wider text-gray-400" for="reset-email">Email Address</label>
+<input class="w-full px-4 py-3 rounded-xl input-field focus:ring-1 focus:outline-none" id="reset-email" placeholder="name@company.com" required="" type="email"/>
+</div>
+<button class="w-full py-4 px-6 rounded-xl text-white font-bold text-lg btn-primary shadow-lg shadow-vibrantOrange/20 mt-4" type="submit">
+      Send Reset Link
+    </button>
+</form>
+<div class="text-center">
+<button class="text-sm text-vibrantOrange hover:underline font-medium" onclick="showPasswordReset(false)">
+      Back to Sign In
+    </button>
+</div>
+</div>
+<!-- BEGIN: Social Auth -->
+<div class="mt-8">
+<div class="relative flex items-center justify-center mb-6">
+<div class="border-t border-white/10 w-full"></div>
+<span class="bg-noir px-4 text-xs font-medium text-gray-500 uppercase tracking-widest absolute">Or continue with</span>
+</div>
+<button class="w-full flex items-center justify-center gap-3 py-3 px-6 rounded-xl border border-white/10 bg-white/5 text-white hover:bg-white/10 transition-all duration-300">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="currentColor"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="currentColor"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="currentColor"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="currentColor"></path>
+</svg>
+<span class="font-semibold">Google Account</span>
+</button>
+</div>
+<!-- END: Social Auth -->
+</section>
+<!-- END: Auth Forms -->
+</div>
+<!-- END: Authentication Card -->
+<!-- BEGIN: Footer -->
+<footer class="mt-10 text-center">
+<p class="text-xs text-gray-500">
+        © 2023 RentShield Protection Systems. All rights reserved.<br/>
+<span class="mt-2 block">By continuing, you agree to our <a class="text-vibrantOrange hover:underline" href="#">Terms of Service</a>.</span>
+</p>
+</footer>
+<!-- END: Footer -->
+</main>
+<!-- END: Main Auth Container -->
+<!-- BEGIN: Logic Script -->
+<script data-purpose="auth-state-handler">
+    function switchTab(mode) {
+      const signInBtn = document.getElementById('tab-signin');
+      const registerBtn = document.getElementById('tab-register');
+      const registerFields = document.getElementById('register-fields');
+      const submitBtn = document.getElementById('submit-btn');
+      const forgotLink = document.getElementById('forgot-password-link');
+
+      // Ensure reset view is hidden when switching tabs
+      showPasswordReset(false);
+
+      if (mode === 'register') {
+        signInBtn.classList.remove('tab-active', 'text-white');
+        signInBtn.classList.add('text-gray-400');
+        registerBtn.classList.add('tab-active', 'text-white');
+        registerBtn.classList.remove('text-gray-400');
+        
+        registerFields.classList.remove('hidden');
+        forgotLink.classList.add('invisible');
+        submitBtn.innerText = 'Create Account';
+      } else {
+        registerBtn.classList.remove('tab-active', 'text-white');
+        registerBtn.classList.add('text-gray-400');
+        signInBtn.classList.add('tab-active', 'text-white');
+        signInBtn.classList.remove('text-gray-400');
+        
+        registerFields.classList.add('hidden');
+        forgotLink.classList.remove('invisible');
+        submitBtn.innerText = 'Sign In';
+      }
+    }
+
+    function showPasswordReset(show) {
+      const authForm = document.getElementById('auth-form');
+      const resetView = document.getElementById('password-reset-view');
+      const authToggle = document.querySelector('[data-purpose="auth-toggle"]');
+      const socialAuth = document.querySelector('.mt-8:has(svg)'); // Targets social auth section
+
+      if (show) {
+        authForm.classList.add('hidden');
+        authToggle.classList.add('hidden');
+        socialAuth.classList.add('hidden');
+        resetView.classList.remove('hidden');
+      } else {
+        authForm.classList.remove('hidden');
+        authToggle.classList.remove('hidden');
+        socialAuth.classList.remove('hidden');
+        resetView.classList.add('hidden');
+      }
+    }
+  </script>
+<!-- END: Logic Script -->
+</body></html>

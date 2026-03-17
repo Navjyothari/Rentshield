@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RentShield - Report an Issue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#ec5b13",
+                "background-light": "#f8f6f6",
+                "background-dark": "#0a0a0a", // Adjusted for "Civic Noir" feel
+                "panel-dark": "#161616",
+                "border-dark": "#1f2d45",
+                "input-dark": "#0a0f1e"
+              },
+              fontFamily: {
+                "display": ["Public Sans"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; }
+        .severity-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(to right, #22c55e, #eab308, #ec5b13, #ef4444);
+            border-radius: 5px;
+            outline: none;
+        }
+        .severity-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid #ec5b13;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="flex min-h-screen">
+<!-- Sidebar -->
+<aside class="w-64 border-r border-slate-200 dark:border-border-dark bg-white dark:bg-panel-dark flex flex-col hidden md:flex">
+<div class="p-6 flex items-center gap-3 border-b border-slate-200 dark:border-border-dark">
+<div class="text-primary">
+<span class="material-symbols-outlined text-3xl">shield_person</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">RentShield</h2>
+</div>
+<nav class="flex-1 p-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary text-white" href="#">
+<span class="material-symbols-outlined">report</span>
+<span class="font-medium">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined">apartment</span>
+<span class="font-medium">Properties</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-medium">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-primary/10 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-border-dark">
+<div class="flex items-center gap-3 p-2 bg-slate-100 dark:bg-primary/5 rounded-xl">
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">account_circle</span>
+</div>
+<div class="overflow-hidden">
+<p class="text-sm font-bold truncate">Alex Sterling</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Pro Member</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col">
+<!-- Top Navbar -->
+<header class="h-16 border-b border-slate-200 dark:border-border-dark bg-white/80 dark:bg-panel-dark/80 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-10">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
+<span>Reports</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-100 font-medium">New Issue Report</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-primary/10 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 dark:bg-border-dark"></div>
+<button class="flex items-center gap-2 text-sm font-semibold text-primary">
+<span class="material-symbols-outlined">help</span>
+                        Support
+                    </button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-4 md:p-8">
+<div class="max-w-[680px] mx-auto">
+<!-- Stepper Header -->
+<div class="mb-10">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h1 class="text-3xl font-bold mb-2">Issue Details</h1>
+<p class="text-slate-500 dark:text-slate-400">Step 2 of 4: Provide specific details about the incident.</p>
+</div>
+<div class="text-right">
+<span class="text-primary font-bold">50% Complete</span>
+</div>
+</div>
+<div class="h-2 w-full bg-slate-200 dark:bg-border-dark rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-500" style="width: 50%;"></div>
+</div>
+</div>
+<!-- Form Content -->
+<div class="space-y-10">
+<!-- Category Selector -->
+<section>
+<label class="block text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4">Select Category</label>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<button class="flex flex-col items-start p-5 rounded-xl border-2 border-primary bg-primary/5 dark:bg-primary/10 transition-all text-left group">
+<div class="size-10 rounded-lg bg-primary text-white flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">health_and_safety</span>
+</div>
+<h3 class="font-bold text-lg mb-1">Safety</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400">Structural risks, fire hazards, or security threats.</p>
+</button>
+<button class="flex flex-col items-start p-5 rounded-xl border-2 border-slate-200 dark:border-border-dark hover:border-primary/50 transition-all text-left group">
+<div class="size-10 rounded-lg bg-slate-100 dark:bg-border-dark text-slate-600 dark:text-slate-400 flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:text-primary">
+<span class="material-symbols-outlined">build</span>
+</div>
+<h3 class="font-bold text-lg mb-1">Maintenance</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400">Leaks, appliance failures, or general repairs.</p>
+</button>
+<button class="flex flex-col items-start p-5 rounded-xl border-2 border-slate-200 dark:border-border-dark hover:border-primary/50 transition-all text-left group">
+<div class="size-10 rounded-lg bg-slate-100 dark:bg-border-dark text-slate-600 dark:text-slate-400 flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:text-primary">
+<span class="material-symbols-outlined">forum</span>
+</div>
+<h3 class="font-bold text-lg mb-1">Harassment</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400">Unwanted contact, threats, or intimidation.</p>
+</button>
+<button class="flex flex-col items-start p-5 rounded-xl border-2 border-slate-200 dark:border-border-dark hover:border-primary/50 transition-all text-left group">
+<div class="size-10 rounded-lg bg-slate-100 dark:bg-border-dark text-slate-600 dark:text-slate-400 flex items-center justify-center mb-4 group-hover:bg-primary/20 group-hover:text-primary">
+<span class="material-symbols-outlined">gavel</span>
+</div>
+<h3 class="font-bold text-lg mb-1">Discrimination</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400">Fair housing violations or unequal treatment.</p>
+</button>
+</div>
+</section>
+<!-- Severity Slider -->
+<section>
+<div class="flex justify-between items-center mb-6">
+<label class="block text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Severity Level</label>
+<span class="px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-bold uppercase">Moderate</span>
+</div>
+<div class="px-2">
+<input class="severity-slider" max="5" min="1" step="1" type="range" value="3"/>
+<div class="flex justify-between mt-4 text-xs font-medium text-slate-400 dark:text-slate-500">
+<span>Minor</span>
+<span>Urgent</span>
+<span>Emergency</span>
+</div>
+</div>
+</section>
+<!-- Description Textarea -->
+<section>
+<label class="block text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4">Detailed Description</label>
+<textarea class="w-full h-40 px-4 py-3 bg-white dark:bg-input-dark border border-slate-200 dark:border-border-dark rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all placeholder-slate-500 text-slate-900 dark:text-slate-100" placeholder="Please describe exactly what happened, including dates, times, and any involved parties..."></textarea>
+<p class="mt-2 text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">info</span>
+                                Minimum 50 characters required for verification.
+                            </p>
+</section>
+<!-- Actions -->
+<div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-slate-200 dark:border-border-dark">
+<button class="flex-1 px-8 py-4 rounded-xl font-bold border-2 border-slate-200 dark:border-border-dark hover:bg-slate-50 dark:hover:bg-white/5 transition-all order-2 sm:order-1">
+                                Back to Step 1
+                            </button>
+<button class="flex-1 px-8 py-4 rounded-xl font-bold bg-primary text-white hover:opacity-90 transition-all shadow-lg shadow-primary/20 order-1 sm:order-2 flex items-center justify-center gap-2">
+                                Continue to Evidence
+                                <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Footer Note -->
+<footer class="mt-12 text-center text-slate-500 dark:text-slate-400 text-sm">
+<p>All reports are encrypted and protected under the Civic Protection Act.</p>
+</footer>
+</div>
+</div>
+</main>
+</div>
+</body></html>

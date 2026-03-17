@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RentShield | Housing Transparency</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&amp;family=DM+Sans:wght@700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f97316",
+                        "primary-hover": "#ea580c",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#0a0f1e",
+                        "background-secondary": "#111827",
+                        "border-navy": "#1f2d45",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "Inter", "sans-serif"],
+                        "heading": ["DM Sans", "sans-serif"],
+                        "body": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .sparkle-bg {
+            background-image: 
+                radial-gradient(1px 1px at 5% 5%, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 15% 35%, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 25% 75%, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 35% 15%, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 45% 55%, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 55% 85%, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1.5px 1.5px at 65% 25%, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 75% 65%, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 85% 45%, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 95% 95%, #ffffff, rgba(0,0,0,0));
+            background-size: 33% 33%;
+        }
+        
+        .heatmap-low { background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%); }
+        .heatmap-mid { background: radial-gradient(circle, rgba(245, 158, 11, 0.6) 0%, transparent 70%); }
+        .heatmap-high { background: radial-gradient(circle, rgba(239, 68, 68, 0.9) 0%, transparent 70%); }
+
+        .mapbox-grid-line { stroke: #242b38; stroke-width: 0.5; }
+        .mapbox-road { stroke: #1a2235; stroke-width: 1.5; }
+
+        .retro-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modern-step {
+            position: relative;
+            background: rgba(17, 24, 39, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .modern-step:hover {
+            border-color: #f97316;
+            background: rgba(17, 24, 39, 0.6);
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="fixed top-0 w-full z-50 border-b border-slate-200 dark:border-border-navy bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-6 lg:px-12 py-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl">shield_person</span>
+</div>
+<h2 class="text-xl font-heading font-bold tracking-tight dark:text-white">RentShield</h2>
+</div>
+<nav class="hidden md:flex items-center gap-10">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">How it Works</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">DAO</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Issues</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Stats</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:block px-5 py-2 text-sm font-bold text-slate-700 dark:text-slate-300">Login</button>
+<button class="bg-primary hover:bg-primary-hover text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-lg shadow-primary/20">
+                Get Started
+            </button>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="relative min-h-screen flex flex-col justify-center items-center pt-20 px-6 sparkle-bg bg-background-dark overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-background-dark/50 to-background-dark pointer-events-none"></div>
+<div class="relative z-10 max-w-5xl mx-auto text-center">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-[0.15em] mb-10">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+            Decentralized Housing Governance
+        </div>
+<h1 class="font-heading text-5xl md:text-8xl font-bold text-white leading-[1.05] tracking-tight mb-8 max-w-4xl mx-auto">
+            Housing Transparency,<br class="hidden md:block"/> Powered by Community
+        </h1>
+<p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-14">
+            Report issues anonymously. Verify evidence with AI. Resolve disputes through community-led governance.
+        </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+<button class="w-full sm:w-auto px-10 py-5 bg-primary text-white font-bold rounded-xl text-lg hover:bg-primary-hover hover:scale-[1.02] transition-all shadow-2xl shadow-primary/40">
+                Join the Movement
+            </button>
+<button class="w-full sm:w-auto px-10 py-5 bg-slate-800/50 backdrop-blur-sm text-white font-bold rounded-xl text-lg hover:bg-slate-700 transition-colors border border-slate-700">
+                View Verified Reports
+            </button>
+</div>
+</div>
+</section>
+<!-- Public Issue Heatmap Section (Mapbox Style) -->
+<section class="py-32 px-6 bg-background-dark relative">
+<div class="max-w-7xl mx-auto mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div>
+<h2 class="text-white text-4xl md:text-6xl font-heading font-bold mb-6 tracking-tight">Global Issue Heatmap</h2>
+<p class="text-slate-400 text-lg md:text-xl max-w-2xl leading-relaxed">Visualize housing trends and critical safety hotspots in real-time. Data transparency drives accountability across borders.</p>
+</div>
+<button class="flex items-center gap-3 text-primary font-bold hover:text-primary-hover transition-colors group">
+            Explore Full Map <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<div class="max-w-7xl mx-auto relative h-[700px] rounded-[2.5rem] overflow-hidden border border-border-navy shadow-2xl bg-[#0a0f1e]">
+<!-- Mapbox Simulation -->
+<div class="absolute inset-0 bg-[#0d111b]">
+<svg class="w-full h-full opacity-40" viewbox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+<path class="mapbox-road" d="M0,100 L1000,100"></path>
+<path class="mapbox-road" d="M200,0 L200,600"></path>
+<path class="mapbox-road" d="M800,0 L800,600"></path>
+<path class="mapbox-road" d="M0,450 L1000,450"></path>
+<path class="mapbox-grid-line" d="M0,50 L1000,50"></path>
+<path class="mapbox-grid-line" d="M0,150 L1000,150"></path>
+<path class="mapbox-grid-line" d="M0,250 L1000,250"></path>
+<path class="mapbox-grid-line" d="M0,350 L1000,350"></path>
+<path class="mapbox-grid-line" d="M0,550 L1000,550"></path>
+<path class="mapbox-grid-line" d="M100,0 L100,600"></path>
+<path class="mapbox-grid-line" d="M300,0 L300,600"></path>
+<path class="mapbox-grid-line" d="M400,0 L400,600"></path>
+<path class="mapbox-grid-line" d="M500,0 L500,600"></path>
+<path class="mapbox-grid-line" d="M600,0 L600,600"></path>
+<path class="mapbox-grid-line" d="M700,0 L700,600"></path>
+<path class="mapbox-grid-line" d="M900,0 L900,600"></path>
+</svg>
+<!-- Heatmap Density Gradients -->
+<div class="absolute top-[15%] left-[12%] w-64 h-64 heatmap-high rounded-full blur-[60px] animate-pulse"></div>
+<div class="absolute bottom-[20%] right-[30%] w-72 h-72 heatmap-high rounded-full blur-[80px] opacity-80"></div>
+<div class="absolute top-[40%] left-[45%] w-80 h-80 heatmap-mid rounded-full blur-[100px]"></div>
+<div class="absolute top-[10%] right-[15%] w-56 h-56 heatmap-mid rounded-full blur-[70px] opacity-70"></div>
+<div class="absolute bottom-[40%] left-[20%] w-64 h-64 heatmap-mid rounded-full blur-[80px] opacity-60"></div>
+<div class="absolute top-[60%] left-[10%] w-96 h-96 heatmap-low rounded-full blur-[120px] opacity-50"></div>
+<div class="absolute bottom-[10%] left-[60%] w-[400px] h-[400px] heatmap-low rounded-full blur-[150px] opacity-30"></div>
+</div>
+<!-- Filter Overlay -->
+<div class="absolute left-10 top-10 w-80 bg-[#111827]/90 backdrop-blur-2xl border border-white/5 rounded-2xl p-6 z-10 shadow-3xl">
+<h4 class="text-white font-heading font-bold mb-6 flex items-center gap-3 text-lg">
+<span class="material-symbols-outlined text-primary">tune</span>
+                Filter Issues
+            </h4>
+<div class="space-y-6">
+<div>
+<label class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-4">Category</label>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded border-slate-700 bg-slate-900 text-primary focus:ring-primary/20 w-5 h-5" type="checkbox"/>
+<span class="text-sm text-slate-300 group-hover:text-white transition-colors">Safety &amp; Hazards</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded border-slate-700 bg-slate-900 text-primary focus:ring-primary/20 w-5 h-5" type="checkbox"/>
+<span class="text-sm text-slate-300 group-hover:text-white transition-colors">Maintenance</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded border-slate-700 bg-slate-900 text-primary focus:ring-primary/20 w-5 h-5" type="checkbox"/>
+<span class="text-sm text-slate-300 group-hover:text-white transition-colors">Harassment</span>
+</label>
+</div>
+</div>
+<div>
+<label class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-4">Severity Score</label>
+<input class="w-full accent-primary bg-slate-800 h-1.5 rounded-lg appearance-none cursor-pointer" max="5" min="1" type="range" value="3"/>
+<div class="flex justify-between text-[10px] font-bold text-slate-500 mt-2">
+<span>LOW</span>
+<span>CRITICAL</span>
+</div>
+</div>
+<button class="w-full py-3.5 bg-primary hover:bg-primary-hover text-white rounded-xl font-bold transition-all shadow-xl shadow-primary/20 mt-4">
+                    Apply Filters
+                </button>
+</div>
+</div>
+<!-- Controls -->
+<div class="absolute right-10 top-10 flex flex-col gap-3">
+<button class="w-12 h-12 bg-[#111827]/80 backdrop-blur-md border border-white/5 rounded-xl flex items-center justify-center text-white hover:bg-slate-800 transition-colors shadow-lg">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-12 h-12 bg-[#111827]/80 backdrop-blur-md border border-white/5 rounded-xl flex items-center justify-center text-white hover:bg-slate-800 transition-colors shadow-lg">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="w-12 h-12 mt-4 bg-primary text-white rounded-xl flex items-center justify-center hover:bg-primary-hover transition-colors shadow-xl shadow-primary/20">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+</div>
+</section>
+<!-- How it Works Section - Modern Modular Design -->
+<section class="py-32 px-6 bg-background-dark">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-24">
+<h2 class="text-white text-4xl md:text-6xl font-heading font-bold mb-8 tracking-tight">The RentShield Workflow</h2>
+<p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">Built for precision, privacy, and results. Our four-step process empowers communities to take back control.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
+<!-- Step 1 -->
+<div class="modern-step p-10 rounded-[2rem]">
+<div class="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center mb-10">
+<span class="material-symbols-outlined text-primary text-4xl">report</span>
+</div>
+<div class="mb-4 text-xs font-black text-primary/60 tracking-[0.2em] uppercase">Phase 01</div>
+<h3 class="text-2xl font-bold text-white mb-4">Secure Report</h3>
+<p class="text-slate-400 text-sm leading-relaxed">Submit housing issues with industrial-grade anonymity and metadata stripping for total protection.</p>
+</div>
+<!-- Step 2 -->
+<div class="modern-step p-10 rounded-[2rem]">
+<div class="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center mb-10">
+<span class="material-symbols-outlined text-primary text-4xl">verified</span>
+</div>
+<div class="mb-4 text-xs font-black text-primary/60 tracking-[0.2em] uppercase">Phase 02</div>
+<h3 class="text-2xl font-bold text-white mb-4">AI Verification</h3>
+<p class="text-slate-400 text-sm leading-relaxed">Proprietary vision models validate photo evidence and lease documents to ensure authenticity.</p>
+</div>
+<!-- Step 3 -->
+<div class="modern-step p-10 rounded-[2rem]">
+<div class="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center mb-10">
+<span class="material-symbols-outlined text-primary text-4xl">gavel</span>
+</div>
+<div class="mb-4 text-xs font-black text-primary/60 tracking-[0.2em] uppercase">Phase 03</div>
+<h3 class="text-2xl font-bold text-white mb-4">DAO Consensus</h3>
+<p class="text-slate-400 text-sm leading-relaxed">Community members review cases and cast weighted votes, driving democratic accountability.</p>
+</div>
+<!-- Step 4 -->
+<div class="modern-step p-10 rounded-[2rem]">
+<div class="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center mb-10">
+<span class="material-symbols-outlined text-primary text-4xl">check_circle</span>
+</div>
+<div class="mb-4 text-xs font-black text-primary/60 tracking-[0.2em] uppercase">Phase 04</div>
+<h3 class="text-2xl font-bold text-white mb-4">Resolution</h3>
+<p class="text-slate-400 text-sm leading-relaxed">Enforceable community outcomes lead to verified housing improvements and legal leverage.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Tenant Success Stories - Integrated Retro Styling -->
+<section class="py-32 px-6 bg-gradient-to-b from-background-dark to-background-secondary overflow-hidden">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-20">
+<h2 class="text-white text-4xl md:text-6xl font-heading font-bold mb-8 tracking-tight">Tenant Success Stories</h2>
+<p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">Real impact from our decentralized justice network.</p>
+</div>
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Testimonial 1 -->
+<div class="retro-card p-10 md:p-12 rounded-[2rem] flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-1 mb-10">
+<span class="material-symbols-outlined text-primary fill-1">star</span>
+<span class="material-symbols-outlined text-primary fill-1">star</span>
+<span class="material-symbols-outlined text-primary fill-1">star</span>
+<span class="material-symbols-outlined text-primary fill-1">star</span>
+<span class="material-symbols-outlined text-primary fill-1">star</span>
+</div>
+<p class="text-2xl font-heading italic text-slate-100 leading-[1.6] mb-12">
+                        "After months of being ignored about structural damp, RentShield's AI verification proved my evidence was valid. The community vote forced action in weeks."
+                    </p>
+</div>
+<div class="flex items-center gap-5">
+<img alt="Sarah J." class="w-16 h-16 rounded-full object-cover border-2 border-primary/40 grayscale hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCassbThagUe9YPYirtX3rIfly6_A198Rmu8Hx6O88zcdd2b51PTy1KkANbjZMdvzuFxw_UGDkYqrczHI4Q2HjkSvpqaGaOraLzvSUgyNFbmaxKebAU9Tw5JmW9YlqglgG4U-D8DoukKfMHoKreQ9tu8UMH2PXcPgjeeOo2W4tDbPeLhxaupQohp4VHPfbPGqR0IncbAt39zx2So8ByEdWWWmZZrBfqPjlDCFrFXC4ul6RmRp1vVZf5mfygDATIS0koEvnq1HYbsHwE"/>
+<div>
+<h4 class="font-heading font-bold text-white text-lg">Sarah Jenkins</h4>
+<p class="text-sm text-slate-500 font-medium">London · Case #482</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="retro-card p-10 md:p-12 rounded-[2rem] flex-1 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-1 mb-10">
+<span class="material-symbols-outlined text-primary fill-1">star</span>
+<span class="material-symbols-outlined text-primary fill-1">star</span>
+<span class="material-symbols-outlined text-primary fill-1">star</span>
+<span class="material-symbols-outlined text-primary fill-1">star</span>
+<span class="material-symbols-outlined text-primary fill-1">star</span>
+</div>
+<p class="text-2xl font-heading italic text-slate-100 leading-[1.6] mb-12">
+                        "The anonymity feature gave me the courage to report illegal surveillance. Knowing the community had my back made all the difference in the world."
+                    </p>
+</div>
+<div class="flex items-center gap-5">
+<img alt="Marcus T." class="w-16 h-16 rounded-full object-cover border-2 border-primary/40 grayscale hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKj_IQTF1-Glrap3mDYuMFMY_LowpFJGSlvIJ07ff7K58_jUaN8QyqtYxyoQdLZxIge1j71DtM0U8sdwujPY7f5FGfUmcxZ53PiIHNisrQq5Q2ayxMf6Del1Ij20v8-O7DIwkXQhdvnTRSIS4_LhlOFJE9Wb7sSgTcQNzUerfb6IL_owhYRVXf_1E4j1lkpqsotNwiIKIbs_N_S62TQXxtvv2VUZuPIKHIg0AQZRsQ1-LGjA4j4nfyOO7tonDVD1x9gD6W5kFmGFdk"/>
+<div>
+<h4 class="font-heading font-bold text-white text-lg">Marcus Thorne</h4>
+<p class="text-sm text-slate-500 font-medium">NYC · Case #215</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Live Feed Ticker -->
+<div class="fixed bottom-0 left-0 w-full bg-[#0a0f1e]/90 backdrop-blur-md border-t border-white/5 py-4 z-50 overflow-hidden whitespace-nowrap">
+<div class="flex items-center">
+<div class="px-8 flex items-center gap-3 border-r border-slate-800">
+<span class="flex h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
+<span class="text-[10px] font-black text-white uppercase tracking-[0.2em]">Live Network Feed</span>
+</div>
+<div class="flex gap-16 px-10 animate-marquee">
+<div class="flex items-center gap-3">
+<span class="text-slate-500 text-[10px] font-bold">2M AGO</span>
+<span class="text-white text-sm font-medium tracking-tight">New mold report filed in <span class="text-primary font-bold">Brooklyn, NY</span></span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-slate-500 text-[10px] font-bold">15M AGO</span>
+<span class="text-white text-sm font-medium tracking-tight">DAO Resolution passed: <span class="text-emerald-400 font-bold">#482 Resolved</span></span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-slate-500 text-[10px] font-bold">1H AGO</span>
+<span class="text-white text-sm font-medium tracking-tight">Evidence verified for <span class="text-primary font-bold">London SE1</span></span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-slate-500 text-[10px] font-bold">2H AGO</span>
+<span class="text-white text-sm font-medium tracking-tight">New challenge filed: <span class="text-red-400 font-bold">San Francisco, CA</span></span>
+</div>
+</div>
+</div>
+</div>
+<footer class="bg-background-dark py-32 pb-48 px-6 border-t border-white/5">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-20">
+<div class="max-w-sm">
+<div class="flex items-center gap-3 mb-8">
+<div class="bg-primary p-2 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl">shield_person</span>
+</div>
+<h2 class="text-2xl font-heading font-bold tracking-tight text-white">RentShield</h2>
+</div>
+<p class="text-slate-500 text-base leading-relaxed font-body">
+                Decentralizing the power dynamic between landlords and tenants. Built on principles of transparency, security, and community-led justice.
+            </p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-16 font-body">
+<div>
+<h4 class="text-white font-bold mb-8 text-sm uppercase tracking-widest font-heading">Platform</h4>
+<ul class="space-y-5 text-slate-500 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">How it Works</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">DAO Governance</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Verification AI</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">System Status</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-8 text-sm uppercase tracking-widest font-heading">Company</h4>
+<ul class="space-y-5 text-slate-500 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">Mission</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Legal</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Transparency Report</a></li>
+</ul>
+</div>
+<div class="col-span-2 sm:col-span-1">
+<h4 class="text-white font-bold mb-8 text-sm uppercase tracking-widest font-heading">Social</h4>
+<div class="flex gap-5">
+<a class="w-12 h-12 rounded-xl bg-slate-900 border border-white/5 flex items-center justify-center hover:border-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-white">share</span>
+</a>
+<a class="w-12 h-12 rounded-xl bg-slate-900 border border-white/5 flex items-center justify-center hover:border-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-white">group</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-32 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="text-slate-600 text-xs">© 2024 RentShield. Protecting tenants globally. Built with Web3 Ethics.</p>
+<div class="flex gap-10">
+<a class="text-slate-600 text-xs hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="text-slate-600 text-xs hover:text-white transition-colors" href="#">Terms of Service</a>
+<a class="text-slate-600 text-xs hover:text-white transition-colors" href="#">Cookie Settings</a>
+</div>
+</div>
+</footer>
+<style>
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+        display: inline-flex;
+        animation: marquee 30s linear infinite;
+    }
+</style>
+</body></html>

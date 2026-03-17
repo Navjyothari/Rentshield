@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RentShield - DAO Case Review</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#0a0f1e",
+                        "background-dark": "#0a0f1e",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0f1e;
+            background-image: 
+                linear-gradient(rgba(236, 91, 19, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(236, 91, 19, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .sparkle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(236, 91, 19, 0.2);
+        }
+
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(236, 91, 19, 0.2);
+        }
+    </style>
+</head>
+<body class="font-display text-slate-100 min-h-screen">
+<div class="sparkle-container">
+<!-- Animated Sparkles -->
+<div class="sparkle" style="top: 10%; left: 20%; width: 2px; height: 2px; --duration: 3s;"></div>
+<div class="sparkle" style="top: 30%; left: 80%; width: 3px; height: 3px; --duration: 4s;"></div>
+<div class="sparkle" style="top: 50%; left: 40%; width: 2px; height: 2px; --duration: 5s;"></div>
+<div class="sparkle" style="top: 70%; left: 10%; width: 3px; height: 3px; --duration: 3.5s;"></div>
+<div class="sparkle" style="top: 85%; left: 60%; width: 2px; height: 2px; --duration: 4.5s;"></div>
+<div class="sparkle" style="top: 15%; left: 90%; width: 2px; height: 2px; --duration: 6s;"></div>
+</div>
+<nav class="border-b border-primary/10 bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between h-16 items-center">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-2 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white">shield</span>
+</div>
+<span class="text-xl font-black tracking-tight text-primary">RentShield <span class="text-slate-400 font-light">DAO</span></span>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-sm font-semibold hover:text-primary transition-colors text-slate-300" href="#">Dashboard</a>
+<a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="#">Active Cases</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors text-slate-300" href="#">Proposals</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors text-slate-300" href="#">Treasury</a>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-slate-300">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 overflow-hidden">
+<img alt="User avatar" data-alt="User profile avatar illustration" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlVKXZXrMQraVrbhytg0KCpii5ymNF2YOm1xnhgt87MKY9ntG2AR3ygwmy5ufCurNpVA3DXHJdc5Ib5QTUMVIY5Z2ZjjUqE1PZhp-C9XqEWBq5xD2clx0NTajEVhWJer5LV6XnrpWKTxSkq8Q3s8Y1vGmt6-ZCInDMeBRTqPT152qOcpOTbcIFdT1apPoeGdPtACejGJnCg6tD_bznDB_ju9a_C7ABH1w6MxSECO8a_2tv9fm5iy9EG1f_pzqXbTvUIPOpYAcpuWL_"/>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="lg:col-span-5 space-y-6">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-1 rounded bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase">Case #88291</span>
+<span class="px-2 py-1 rounded bg-slate-800 text-slate-400 text-xs font-bold uppercase">Mediation Stage</span>
+</div>
+<h1 class="text-4xl font-extrabold tracking-tight text-white">Security Deposit Dispute</h1>
+<p class="text-slate-400 text-lg leading-relaxed">
+                    Tenant claims full refund of $2,400 deposit. Landlord withheld $1,800 citing "excessive wall damage" and "unauthorized modifications".
+                </p>
+<div class="bg-slate-900/50 rounded-xl p-6 shadow-sm border border-slate-800 backdrop-blur-sm">
+<h3 class="font-bold text-lg mb-6 flex items-center gap-2 text-white">
+<span class="material-symbols-outlined text-primary">timeline</span>
+                        Case Timeline
+                    </h3>
+<div class="space-y-6 relative before:absolute before:inset-y-0 before:left-3 before:w-0.5 before:bg-slate-800">
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px] text-white">description</span>
+</div>
+<h4 class="font-bold text-sm text-white">Dispute Filed</h4>
+<p class="text-xs text-slate-500 mb-1">Oct 12, 2023 • Tenant #4412</p>
+<p class="text-sm text-slate-400">Formal claim initiated via smart contract vault.</p>
+</div>
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px] text-primary">image</span>
+</div>
+<h4 class="font-bold text-sm text-white">Evidence Uploaded</h4>
+<p class="text-xs text-slate-500 mb-1">Oct 14, 2023 • Landlord #1029</p>
+<div class="flex gap-2 mt-2">
+<div class="w-16 h-16 rounded-lg bg-slate-800 flex items-center justify-center border border-slate-700 overflow-hidden">
+<img alt="Wall damage 1" class="w-full h-full object-cover" data-alt="Close up photo of white wall with scuff marks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9GDF0XQmaC9WiyOe9LnUiH9z4KvrMg39QubTTuGJ49KhGlwn15v0BR-vGOfx0q0T7neh8vc4lCcCti8mpILMmQ7zyThd6nmjpAHK4Yi3D3dJzNHXYWu5DFH_gooL8Gf93In_mPKjA9WIO8-FQ9CbKKPFLLt50-BUlFtuUHxvrbAUR_z8fhtBxi4QHmz4_cK9Gb9yUsXmZpCcn_m6clBWcr7p9XbuYVkVPDAEj0-n8KKtX-Yi7Ez00PCkuqEVAgPM5kFVe3sbUDkfa"/>
+</div>
+<div class="w-16 h-16 rounded-lg bg-slate-800 flex items-center justify-center border border-slate-700 overflow-hidden">
+<img alt="Wall damage 2" class="w-full h-full object-cover" data-alt="Interior room photo showing empty apartment space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDheANb02qsoFbmdCpiITobc4oev0qLmLXNpNUi2TygV9x6Tqpgv0lnH4pIBChYHfd1TBRfuxgrO4M8yG3EMMJfFL2oqxEpbPw5TlOAdpG1RFleO5McjGFSf3FfUi8t2TwXWsEeQqpuGuIgEuqGDxK2eeKADoROvz_hfd-QfB0cB0UByWU7hR2IYAIbuVGgcRDvDbGzp62TRYDC2VEjqXN3BIc7GREYheYFil0RJDOOABqExkl-GbvbqWRXH5XrWEsMOA7BHbb3KyE6"/>
+</div>
+</div>
+</div>
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[14px] text-red-500">cancel</span>
+</div>
+<h4 class="font-bold text-sm text-white">Mediation Failed</h4>
+<p class="text-xs text-slate-500 mb-1">Oct 20, 2023 • System</p>
+<p class="text-sm text-slate-400">Neither party accepted the automated 50/50 split settlement offer.</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-slate-900/50 rounded-xl border border-slate-800 backdrop-blur-sm">
+<p class="text-xs font-bold text-slate-500 uppercase mb-1">Escrowed Funds</p>
+<p class="text-xl font-black text-white">$2,400.00</p>
+<p class="text-xs text-slate-400">USDC-Arbitrum</p>
+</div>
+<div class="p-4 bg-slate-900/50 rounded-xl border border-slate-800 backdrop-blur-sm">
+<p class="text-xs font-bold text-slate-500 uppercase mb-1">Reputation Stake</p>
+<p class="text-xl font-black text-white">450 REP</p>
+<p class="text-xs text-slate-400">Juror slashing risk</p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-7">
+<div class="glass-panel rounded-2xl p-8 shadow-2xl sticky top-24">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h2 class="text-2xl font-black tracking-tight text-white">Juror Voting Panel</h2>
+<p class="text-slate-400">Cast your verdict based on submitted evidence.</p>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold text-primary uppercase">Voting Ends In</p>
+<p class="text-lg font-mono font-bold text-white">14:02:55</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+<label class="relative group cursor-pointer">
+<input checked="" class="peer sr-only" name="vote" type="radio"/>
+<div class="h-full p-6 rounded-xl border-2 border-slate-800 bg-slate-900/40 peer-checked:border-emerald-500 peer-checked:bg-emerald-950/20 transition-all">
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 rounded-full bg-emerald-900/50 flex items-center justify-center text-emerald-500">
+<span class="material-symbols-outlined">gavel</span>
+</div>
+<span class="material-symbols-outlined text-emerald-500 opacity-0 peer-checked:opacity-100">check_circle</span>
+</div>
+<h3 class="text-lg font-bold mb-1 text-white">Sustain Dispute</h3>
+<p class="text-xs text-slate-400">Rule in favor of the Tenant. Refund full deposit minus verified damages.</p>
+</div>
+</label>
+<label class="relative group cursor-pointer">
+<input class="peer sr-only" name="vote" type="radio"/>
+<div class="h-full p-6 rounded-xl border-2 border-slate-800 bg-slate-900/40 peer-checked:border-red-500 peer-checked:bg-red-950/20 transition-all">
+<div class="flex items-center justify-between mb-4">
+<div class="w-10 h-10 rounded-full bg-red-900/50 flex items-center justify-center text-red-500">
+<span class="material-symbols-outlined">block</span>
+</div>
+<span class="material-symbols-outlined text-red-500 opacity-0 peer-checked:opacity-100">check_circle</span>
+</div>
+<h3 class="text-lg font-bold mb-1 text-white">Dismiss Case</h3>
+<p class="text-xs text-slate-400">Rule in favor of the Landlord. Uphold the withholding of the security deposit.</p>
+</div>
+</label>
+</div>
+<div class="mb-8">
+<label class="block text-sm font-bold text-slate-300 mb-2">Verdict Reason (Required for DAO transparency)</label>
+<textarea class="w-full rounded-xl border-slate-800 bg-slate-900/60 focus:ring-primary focus:border-primary placeholder-slate-500 text-sm text-white" placeholder="Explain the reasoning behind your decision..." rows="4"></textarea>
+</div>
+<div class="space-y-3 mb-8">
+<div class="flex justify-between text-xs font-bold uppercase tracking-wider text-slate-400">
+<span>Live Voting Split</span>
+<span class="text-slate-500">82% Quorum Reached</span>
+</div>
+<div class="h-4 w-full bg-slate-800 rounded-full overflow-hidden flex">
+<div class="h-full bg-emerald-500 w-[65%] flex items-center justify-center">
+<span class="text-[10px] font-bold text-white">65% SUSTAIN</span>
+</div>
+<div class="h-full bg-red-500 w-[35%] flex items-center justify-center">
+<span class="text-[10px] font-bold text-white">35% DISMISS</span>
+</div>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-black py-4 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 group">
+                        Submit Final Vote
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">send</span>
+</button>
+<p class="text-center text-[10px] text-slate-500 mt-4 uppercase font-bold tracking-widest">
+                        By voting, you certify that you have reviewed all available evidence. 
+                        <br/>Reputation slashing applies for bad actor behavior.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<footer class="mt-20 border-t border-slate-800 py-10 bg-background-dark/50 backdrop-blur-sm">
+<div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2 grayscale opacity-60">
+<span class="material-symbols-outlined text-white">shield</span>
+<span class="font-bold text-white">RentShield DAO</span>
+</div>
+<div class="flex gap-8 text-sm font-medium text-slate-500">
+<a class="hover:text-primary transition-colors" href="#">Documentation</a>
+<a class="hover:text-primary transition-colors" href="#">Governance Token</a>
+<a class="hover:text-primary transition-colors" href="#">Risk Disclaimer</a>
+</div>
+<div class="text-xs text-slate-500">
+                © 2023 RentShield Protocols. Decentrally Moderated.
+            </div>
+</div>
+</footer>
+</body></html>

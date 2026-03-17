@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RentShield - Evidence Upload</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#0a0f1e", // Deep Navy for Civic Noir
+                        "navy-700": "#1a2238",
+                        "navy-800": "#111827",
+                        "navy-900": "#0a0f1e",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .pulse-amber {
+            box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+            animation: pulse-amber 2s infinite;
+        }
+        @keyframes pulse-amber {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+        .sparkle-bg {
+            background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+    </style>
+</head>
+<body class="bg-background-dark font-display text-slate-100 min-h-screen sparkle-bg">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-white/10 px-6 py-4 lg:px-40 bg-navy-900/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-4 text-white">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white">shield</span>
+</div>
+<h2 class="text-white text-xl font-bold leading-tight tracking-tight">RentShield</h2>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-white transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-primary/20 border border-primary/50 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOzvyE817ZsCSsI9c2SXPkjeh-GDBdx5sUOCunJnCobU0infni6wAhPfQuQpTNuABeTWh99nWsCP4Men7Q9vTFJ9d6tEZPzk8hLSOSxdJTCTQK4p1pRDJ1BGI_fnfOQNM7nB8l8DTbgf0FbICQRbNXlYu0rHU6ZKtb-IHRhqDradGwXWv6QOjvztOg1psHMnhZtC8XFdL_wxyUkZfaEbsf8FMW66xdxnJZJqBJvL2QAT6sILtPANnXeoIgy9mJfG3-zWQGVTrQEqpd"/>
+</div>
+</div>
+</header>
+<main class="flex-1 flex justify-center py-8 px-6 lg:px-40">
+<div class="layout-content-container flex flex-col max-w-[800px] flex-1">
+<!-- Progress Section -->
+<div class="flex flex-col gap-4 mb-8">
+<div class="flex gap-6 justify-between items-end">
+<div>
+<h4 class="text-primary font-bold text-sm uppercase tracking-widest mb-1">Current Step</h4>
+<p class="text-white text-2xl font-bold leading-normal">Step 3 of 4</p>
+</div>
+<p class="text-slate-400 text-sm font-medium leading-normal bg-white/5 px-3 py-1 rounded-full">75% Complete</p>
+</div>
+<div class="h-2 rounded-full bg-white/5 overflow-hidden">
+<div class="h-full rounded-full bg-primary" style="width: 75%;"></div>
+</div>
+<div class="flex items-center gap-2 text-slate-400">
+<span class="material-symbols-outlined text-sm">description</span>
+<p class="text-sm font-normal">Evidence Upload &amp; AI Verification</p>
+</div>
+</div>
+<!-- Header Content -->
+<div class="mb-8">
+<h1 class="text-white text-4xl font-extrabold leading-tight tracking-tight mb-3">Upload Evidence</h1>
+<p class="text-slate-400 text-lg font-normal">Please provide clear photos or PDF documents of the issue. Our AI will analyze them for faster processing.</p>
+</div>
+<!-- AI Analysis Status Indicator -->
+<div class="glass-morphism rounded-xl p-4 mb-8 flex items-center justify-between border-l-4 border-amber-500">
+<div class="flex items-center gap-3">
+<div class="relative flex h-3 w-3">
+<span class="pulse-amber absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+</div>
+<div>
+<p class="text-white font-semibold text-sm">AI Analysis Active</p>
+<p class="text-slate-400 text-xs">Waiting for uploads to begin scanning...</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-amber-500">auto_awesome</span>
+</div>
+<!-- Drop Zone (Glassmorphic) -->
+<div class="flex flex-col mb-8">
+<div class="flex flex-col items-center gap-6 rounded-2xl border-2 border-dashed border-white/20 bg-white/[0.02] hover:bg-white/[0.05] transition-all px-6 py-16 cursor-pointer group">
+<div class="size-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">cloud_upload</span>
+</div>
+<div class="flex flex-col items-center gap-2 text-center">
+<p class="text-white text-xl font-bold">Drag &amp; drop files here</p>
+<p class="text-slate-400 text-sm">Supports high-res JPG, PNG, and PDF (Max 15MB per file)</p>
+</div>
+<button class="flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-white/10 hover:bg-white/20 text-white text-sm font-bold transition-all border border-white/10">
+<span>Browse Files</span>
+</button>
+</div>
+</div>
+<!-- Preview Grid -->
+<div class="mb-10">
+<h3 class="text-white font-bold text-lg mb-4">Uploaded Files (3)</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- File 1: Image -->
+<div class="glass-morphism rounded-xl p-3 flex flex-col gap-3 relative group">
+<div class="relative aspect-video rounded-lg overflow-hidden bg-slate-800">
+<img class="w-full h-full object-cover" data-alt="Photo of a ceiling leak in a bathroom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWp4SH1t1vrXDk-vYBn2obgQUVbbqW93jOzs3SNKlLFjE-h056EH5JRN0rxeWVZ-HIMtkW3dvC3-tc58THJXiHzlxZknmy541nSE5FoX5ArqAhtmCnJodcxsCAl3yZY9JH-yl1Air4q4BmxQ7b3aw5QjQQyTrxDMYXYYM6kpQTYCuX71zeZ5PeSLNA92E-H8nIT1r234OfzKw_8JyqLEqu1h_MkKRwJRv3lVzyay-NZxWB8IJqjM0SBnXzyzf-dYCR4ovzyKzFjkwi"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<button class="bg-red-500 text-white p-2 rounded-full">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col">
+<p class="text-slate-200 text-xs font-medium truncate">ceiling_leak_01.jpg</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[10px] text-green-400">check_circle</span>
+<p class="text-green-400 text-[10px] uppercase font-bold tracking-tighter">AI Scanned</p>
+</div>
+</div>
+</div>
+<!-- File 2: PDF -->
+<div class="glass-morphism rounded-xl p-3 flex flex-col gap-3 relative group">
+<div class="relative aspect-video rounded-lg overflow-hidden bg-navy-800 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-primary/40">picture_as_pdf</span>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<button class="bg-red-500 text-white p-2 rounded-full">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col">
+<p class="text-slate-200 text-xs font-medium truncate">lease_agreement.pdf</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[10px] text-amber-400">sync</span>
+<p class="text-amber-400 text-[10px] uppercase font-bold tracking-tighter">Analyzing Text...</p>
+</div>
+</div>
+</div>
+<!-- File 3: Image -->
+<div class="glass-morphism rounded-xl p-3 flex flex-col gap-3 relative group">
+<div class="relative aspect-video rounded-lg overflow-hidden bg-slate-800">
+<img class="w-full h-full object-cover" data-alt="Photo of damaged floorboards in hallway" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4QAGNzskZ_COVqGQTq7w7WYzn9yX5xeNiLRIqbEUMqr0lgTMMzjSlB30xSz1mh4VcCgTPotHSwDCiQpySxi-TsF8NBLWbNq11r3D4aNBo3qRLSRxnBRqSbvlFPLg6YrSakYvZjBnTkSq2monJG_n4bsgR9vO_Pa2zVBwkp1IkB1sDaAZyaJWhVp_zlR95LFMw7rGYS18Tcd1y2wKdT8mbX3dONoa9DMG5wnI3Bfj2phVReBGe1O_k-7mmWZefSi2Aj3IP3zaLjuW-"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<button class="bg-red-500 text-white p-2 rounded-full">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col">
+<p class="text-slate-200 text-xs font-medium truncate">floor_damage_02.png</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[10px] text-green-400">check_circle</span>
+<p class="text-green-400 text-[10px] uppercase font-bold tracking-tighter">AI Scanned</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10">
+<button class="w-full sm:w-auto flex items-center justify-center px-8 h-14 rounded-xl border border-white/20 text-white font-bold hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined mr-2">arrow_back</span>
+                            Previous Step
+                        </button>
+<button class="w-full sm:w-auto flex items-center justify-center px-12 h-14 rounded-xl bg-primary text-white font-extrabold text-lg shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+                            Continue to Review
+                            <span class="material-symbols-outlined ml-2">arrow_forward</span>
+</button>
+</div>
+<!-- Disclaimer -->
+<p class="text-slate-500 text-center text-xs mt-12 mb-8">
+                        RentShield uses secure encryption for all uploads. By uploading, you agree to our Terms of Service regarding data processing for dispute resolution.
+                    </p>
+</div>
+</main>
+</div>
+</div>
+</body></html>

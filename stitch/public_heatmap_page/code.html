@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>.glass-sidebar {
+    background: rgba(34, 22, 16, 0.85);
+    backdrop-filter: blur(12px);
+    border-right: 1px solid rgba(236, 91, 19, 0.2)
+    }
+.map-bg {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuCXs0Rw3pPe67cArvyqFUnE35gHJFhksGDq2zjm97PhwBy55Buxr0drSZAbxpACzBWLfFgqBvWz9JNMyRHyL7JbiexXvnyI99niebGKyb9CEnYqmdwobBq83pCE81NPdPdG86usv9BT9HZ1NSHXaWv0npslSyZQ__8sXhFbAXT-LjnvP-RbZlVD8JR9qGamTKbUzoZVaYn8X4C3yXD19QvyMWrBnQlYLI3hqFKJgQkDAdW0j9bOpt_tFOErR3L3UElBjNacV28Sxop2);
+    background-size: cover;
+    background-position: center
+    }
+input[type="range"] {
+    accent-color: #ec5b13
+    }</style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 overflow-hidden">
+<div class="relative h-screen w-full flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 glass-sidebar border-b border-primary/20">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined">shield_with_house</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-slate-100">RentShield <span class="text-primary font-medium text-sm ml-1 uppercase tracking-widest">Public Heatmap</span></h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center px-4 py-2 rounded-full bg-white/5 border border-white/10">
+<span class="material-symbols-outlined text-primary text-sm mr-2">location_on</span>
+<span class="text-xs text-slate-300">Live in: New York City</span>
+</div>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">report</span>
+<span>Report an Issue</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="relative flex-1 flex overflow-hidden">
+<!-- Map Background Layer -->
+<div class="absolute inset-0 z-0 map-bg grayscale brightness-[0.4] contrast-[1.2]" data-alt="Dark stylized city map showing heat intensity overlays" data-location="New York City" style="">
+<!-- Map UI Elements Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-background-dark/40 pointer-events-none"></div>
+<!-- Mock Map Clusters -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+<div class="relative flex items-center justify-center">
+<div class="absolute w-32 h-32 bg-primary/20 rounded-full animate-pulse"></div>
+<div class="z-10 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center font-bold border-4 border-background-dark shadow-xl">
+                            124
+                        </div>
+<!-- Popup Example -->
+<div class="absolute bottom-full mb-4 w-48 p-3 glass-sidebar rounded-xl border border-primary/40 shadow-2xl">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[10px] font-bold uppercase tracking-widest text-primary">High Density</span>
+<span class="material-symbols-outlined text-xs text-slate-400">close</span>
+</div>
+<p class="text-xs font-semibold text-slate-100">Brooklyn Heights</p>
+<p class="text-[10px] text-slate-400 mt-1">42 Structural Reports</p>
+<div class="mt-2 w-full bg-white/10 h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[85%]"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute top-1/3 right-1/4">
+<div class="bg-primary/40 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold border-2 border-background-dark">
+                        18
+                    </div>
+</div>
+<div class="absolute bottom-1/4 left-2/3">
+<div class="bg-primary/30 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold border-2 border-background-dark">
+                        56
+                    </div>
+</div>
+</div>
+<!-- Floating Sidebar -->
+<aside class="relative z-10 w-80 h-full p-6 mt-20 pb-10 flex flex-col gap-6 glass-sidebar">
+<div>
+<h2 class="text-slate-100 text-lg font-bold mb-1">Map Filters</h2>
+<p class="text-slate-400 text-xs">Visualize tenant reports &amp; civic data</p>
+</div>
+<!-- Layer Toggle -->
+<div class="bg-white/5 rounded-xl p-1 flex">
+<button class="flex-1 py-2 px-3 bg-primary text-white text-xs font-bold rounded-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">heat</span> Heatmap
+                    </button>
+<button class="flex-1 py-2 px-3 text-slate-400 text-xs font-bold rounded-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">pin_drop</span> Points
+                    </button>
+</div>
+<!-- Categories -->
+<div class="space-y-4">
+<h3 class="text-slate-300 text-xs font-bold uppercase tracking-widest">Issue Categories</h3>
+<div class="space-y-2">
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="w-5 h-5 rounded border-white/20 bg-white/5 text-primary focus:ring-primary focus:ring-offset-background-dark mr-3 transition-colors" type="checkbox"/>
+<span class="text-sm text-slate-300 group-hover:text-slate-100 transition-colors">Structural Issues</span>
+<span class="ml-auto text-[10px] bg-white/10 text-slate-400 px-1.5 py-0.5 rounded">2.4k</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="w-5 h-5 rounded border-white/20 bg-white/5 text-primary focus:ring-primary focus:ring-offset-background-dark mr-3 transition-colors" type="checkbox"/>
+<span class="text-sm text-slate-300 group-hover:text-slate-100 transition-colors">Sanitation &amp; Pests</span>
+<span class="ml-auto text-[10px] bg-white/10 text-slate-400 px-1.5 py-0.5 rounded">1.8k</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="w-5 h-5 rounded border-white/20 bg-white/5 text-primary focus:ring-primary focus:ring-offset-background-dark mr-3 transition-colors" type="checkbox"/>
+<span class="text-sm text-slate-300 group-hover:text-slate-100 transition-colors">Safety &amp; Security</span>
+<span class="ml-auto text-[10px] bg-white/10 text-slate-400 px-1.5 py-0.5 rounded">942</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="w-5 h-5 rounded border-white/20 bg-white/5 text-primary focus:ring-primary focus:ring-offset-background-dark mr-3 transition-colors" type="checkbox"/>
+<span class="text-sm text-slate-300 group-hover:text-slate-100 transition-colors">Overcrowding</span>
+<span class="ml-auto text-[10px] bg-white/10 text-slate-400 px-1.5 py-0.5 rounded">312</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="w-5 h-5 rounded border-white/20 bg-white/5 text-primary focus:ring-primary focus:ring-offset-background-dark mr-3 transition-colors" type="checkbox"/>
+<span class="text-sm text-slate-300 group-hover:text-slate-100 transition-colors">No Heat/Hot Water</span>
+<span class="ml-auto text-[10px] bg-white/10 text-slate-400 px-1.5 py-0.5 rounded">4.1k</span>
+</label>
+</div>
+</div>
+<!-- Severity Slider -->
+<div class="space-y-4 pt-4 border-t border-white/10">
+<div class="flex justify-between items-center">
+<h3 class="text-slate-300 text-xs font-bold uppercase tracking-widest">Min. Severity</h3>
+<span class="text-primary font-bold text-sm">Level 3+</span>
+</div>
+<div class="px-1">
+<input class="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer" max="5" min="1" type="range" value="3"/>
+<div class="flex justify-between mt-2 px-1">
+<span class="text-[10px] text-slate-500 font-bold">1</span>
+<span class="text-[10px] text-slate-500 font-bold">2</span>
+<span class="text-[10px] text-slate-500 font-bold">3</span>
+<span class="text-[10px] text-slate-500 font-bold">4</span>
+<span class="text-[10px] text-slate-500 font-bold">5</span>
+</div>
+</div>
+</div>
+<!-- Search -->
+<div class="mt-auto space-y-4">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-primary/50 transition-all placeholder:text-slate-500" placeholder="Search zip or street..." type="text"/>
+</div>
+<button class="w-full py-3 bg-white/10 hover:bg-white/20 text-slate-100 rounded-xl font-bold text-sm transition-all border border-white/10">
+                        Export Dataset (.csv)
+                    </button>
+</div>
+</aside>
+<!-- Map Controls (Bottom Right) -->
+<div class="absolute bottom-8 right-8 z-10 flex flex-col gap-2">
+<div class="flex flex-col rounded-xl overflow-hidden glass-sidebar border border-white/10">
+<button class="p-3 text-slate-100 hover:bg-white/10 transition-colors border-b border-white/10">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="p-3 text-slate-100 hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+<button class="p-3 rounded-xl glass-sidebar border border-white/10 text-slate-100 hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+<button class="p-3 rounded-xl glass-sidebar border border-white/10 text-slate-100 hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">layers</span>
+</button>
+</div>
+<!-- Legend (Bottom Center) -->
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 glass-sidebar px-4 py-2 rounded-full border border-white/10 flex items-center gap-4">
+<span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Heat Level:</span>
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-full bg-primary/20"></div>
+<span class="text-[10px] text-slate-300">Low</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-full bg-primary/60"></div>
+<span class="text-[10px] text-slate-300">Med</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
+<span class="text-[10px] text-slate-300 font-bold">High Risk</span>
+</div>
+</div>
+</main>
+</div>
+</body></html>
